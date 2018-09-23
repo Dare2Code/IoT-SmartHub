@@ -1,0 +1,321 @@
+[
+    {
+      "id": "148c6ce4.681713",
+      "type": "tab",
+      "label": "myflow",
+      "disabled": false,
+      "info": "my initial flow"
+    },
+    {
+      "id": "ca8ce003.d6463",
+      "type": "ibmiot in",
+      "z": "148c6ce4.681713",
+      "authentication": "boundService",
+      "apiKey": "",
+      "inputType": "evt",
+      "logicalInterface": "",
+      "ruleId": "",
+      "deviceId": "TemperatureSensor",
+      "applicationId": "",
+      "deviceType": "Sensors",
+      "eventType": "devicestatus",
+      "commandType": "",
+      "format": "json",
+      "name": "IBM IoT App In",
+      "service": "registered",
+      "allDevices": "",
+      "allApplications": "",
+      "allDeviceTypes": "",
+      "allLogicalInterfaces": "",
+      "allEvents": "",
+      "allCommands": "",
+      "allFormats": false,
+      "qos": 0,
+      "x": 80,
+      "y": 140,
+      "wires": [
+        [
+          "ee6ce836.3768a8"
+        ]
+      ]
+    },
+    {
+      "id": "9f43ac82.d0fad",
+      "type": "debug",
+      "z": "148c6ce4.681713",
+      "name": "",
+      "active": true,
+      "tosidebar": true,
+      "console": false,
+      "tostatus": false,
+      "complete": "payload",
+      "x": 750,
+      "y": 140,
+      "wires": []
+    },
+    {
+      "id": "63a12392.cca9ac",
+      "type": "ibmiot out",
+      "z": "148c6ce4.681713",
+      "authentication": "boundService",
+      "apiKey": "",
+      "outputType": "cmd",
+      "deviceId": "TemperatureSensor",
+      "deviceType": "Sensors",
+      "eventCommandType": "led-on",
+      "format": "json",
+      "data": "{}",
+      "qos": 0,
+      "name": "IBM IoT App Out",
+      "service": "registered",
+      "x": 570,
+      "y": 340,
+      "wires": []
+    },
+    {
+      "id": "9e44aa9c.9fb618",
+      "type": "inject",
+      "z": "148c6ce4.681713",
+      "name": "Turn On LED",
+      "topic": "",
+      "payload": "",
+      "payloadType": "date",
+      "repeat": "",
+      "crontab": "",
+      "once": false,
+      "onceDelay": 0.1,
+      "x": 190,
+      "y": 340,
+      "wires": [
+        [
+          "63a12392.cca9ac"
+        ]
+      ]
+    },
+    {
+      "id": "4a08e8ce.930cd8",
+      "type": "http in",
+      "z": "148c6ce4.681713",
+      "name": "Http led-on",
+      "url": "/led-on",
+      "method": "get",
+      "upload": false,
+      "swaggerDoc": "",
+      "x": 160,
+      "y": 280,
+      "wires": [
+        [
+          "89d480bb.73b76"
+        ]
+      ]
+    },
+    {
+      "id": "89d480bb.73b76",
+      "type": "function",
+      "z": "148c6ce4.681713",
+      "name": "",
+      "func": "msg.payload = \"{}\"\nreturn msg;",
+      "outputs": 1,
+      "noerr": 0,
+      "x": 370,
+      "y": 280,
+      "wires": [
+        [
+          "8208cb46.6d0ed8",
+          "63a12392.cca9ac"
+        ]
+      ]
+    },
+    {
+      "id": "8208cb46.6d0ed8",
+      "type": "http response",
+      "z": "148c6ce4.681713",
+      "name": "",
+      "statusCode": "",
+      "headers": {},
+      "x": 560,
+      "y": 280,
+      "wires": []
+    },
+    {
+      "id": "fb3db286.87bdc",
+      "type": "ibmiot out",
+      "z": "148c6ce4.681713",
+      "authentication": "boundService",
+      "apiKey": "",
+      "outputType": "cmd",
+      "deviceId": "TemperatureSensor",
+      "deviceType": "Sensors",
+      "eventCommandType": "led-off",
+      "format": "json",
+      "data": "{}",
+      "qos": 0,
+      "name": "IBM IoT App Out",
+      "service": "registered",
+      "x": 570,
+      "y": 480,
+      "wires": []
+    },
+    {
+      "id": "e768ed0a.840b4",
+      "type": "inject",
+      "z": "148c6ce4.681713",
+      "name": "Turn Off LED",
+      "topic": "",
+      "payload": "",
+      "payloadType": "date",
+      "repeat": "",
+      "crontab": "",
+      "once": false,
+      "onceDelay": 0.1,
+      "x": 190,
+      "y": 480,
+      "wires": [
+        [
+          "fb3db286.87bdc"
+        ]
+      ]
+    },
+    {
+      "id": "994266e5.eade38",
+      "type": "http in",
+      "z": "148c6ce4.681713",
+      "name": "Http led-off",
+      "url": "/led-off",
+      "method": "get",
+      "upload": false,
+      "swaggerDoc": "",
+      "x": 160,
+      "y": 420,
+      "wires": [
+        [
+          "3d0c4678.cceffa"
+        ]
+      ]
+    },
+    {
+      "id": "3d0c4678.cceffa",
+      "type": "function",
+      "z": "148c6ce4.681713",
+      "name": "",
+      "func": "msg.payload = \"{}\"\nreturn msg;",
+      "outputs": 1,
+      "noerr": 0,
+      "x": 370,
+      "y": 420,
+      "wires": [
+        [
+          "e6d84474.e5a5e8",
+          "fb3db286.87bdc"
+        ]
+      ]
+    },
+    {
+      "id": "e6d84474.e5a5e8",
+      "type": "http response",
+      "z": "148c6ce4.681713",
+      "name": "",
+      "statusCode": "",
+      "headers": {},
+      "x": 560,
+      "y": 420,
+      "wires": []
+    },
+    {
+      "id": "bc8d092.3890ef8",
+      "type": "function",
+      "z": "148c6ce4.681713",
+      "name": "Convert to cloudant data",
+      "func": "var d = new Date();\n// convert to msec\n// subtract local time zone offset\n// get UTC time in msec\nvar utc = d.getTime() - (d.getTimezoneOffset() * 60000);\n// create new Date object for different city\n// using supplied offset\nvar nd = new Date(utc + (3600000*+8));\nmsg.payload._id = \"12345\";\nmsg.payload.timestamp= nd.toISOString();//.toLocaleString();\nreturn msg;",
+      "outputs": 1,
+      "noerr": 0,
+      "x": 450,
+      "y": 220,
+      "wires": [
+        []
+      ]
+    },
+    {
+      "id": "bc3e76bf.47a508",
+      "type": "dashDB out",
+      "z": "148c6ce4.681713",
+      "dashDB": "",
+      "service": "IoT-Db2-v1",
+      "table": "TEST_DATA",
+      "name": "SQL DB",
+      "x": 720,
+      "y": 80,
+      "wires": [],
+      "inputLabels": [
+        "msg"
+      ]
+    },
+    {
+      "id": "d2491068.761b6",
+      "type": "cloudant out",
+      "z": "148c6ce4.681713",
+      "name": "Cloudant NOSQL DB",
+      "cloudant": "",
+      "database": "storage01",
+      "service": "sample-node-red-cloudantNoSQLDB",
+      "payonly": false,
+      "operation": "insert",
+      "x": 760,
+      "y": 220,
+      "wires": []
+    },
+    {
+      "id": "ee6ce836.3768a8",
+      "type": "delay",
+      "z": "148c6ce4.681713",
+      "name": "",
+      "pauseType": "timed",
+      "timeout": "20",
+      "timeoutUnits": "seconds",
+      "rate": "1",
+      "nbRateUnits": "10",
+      "rateUnits": "second",
+      "randomFirst": "1",
+      "randomLast": "5",
+      "randomUnits": "seconds",
+      "drop": true,
+      "x": 140,
+      "y": 220,
+      "wires": [
+        [
+          "e0920d15.e3934",
+          "bc8d092.3890ef8"
+        ]
+      ]
+    },
+    {
+      "id": "e0920d15.e3934",
+      "type": "function",
+      "z": "148c6ce4.681713",
+      "name": "convert to SQL format",
+      "func": "msg.payload={TEMP:msg.payload.d.temp,LED:msg.payload.d.led}\nnode.log(\"Log message\"+ msg.payload);\nreturn msg;",
+      "outputs": 1,
+      "noerr": 0,
+      "x": 440,
+      "y": 140,
+      "wires": [
+        [
+          "9f43ac82.d0fad"
+        ]
+      ]
+    },
+    {
+      "id": "a8731d0.2e271e",
+      "type": "function",
+      "z": "148c6ce4.681713",
+      "name": "OLD Function",
+      "func": "var d = new Date();\n// convert to msec\n// subtract local time zone offset\n// get UTC time in msec\nvar utc = d.getTime() - (d.getTimezoneOffset() * 60000);\n// create new Date object for different city\n// using supplied offset\nvar nd = new Date(utc + (3600000*+8));\nmsg.payload._id = \"12345\";\nmsg.payload.timestamp= nd.toISOString();//.toLocaleString();\nreturn msg;",
+      "outputs": 1,
+      "noerr": 0,
+      "x": 360,
+      "y": 520,
+      "wires": [
+        []
+      ]
+    }
+  ]

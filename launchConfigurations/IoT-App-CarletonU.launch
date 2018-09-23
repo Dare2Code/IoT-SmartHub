@@ -1,0 +1,22 @@
+{
+  "ServiceId": "com.ibm.cloudoe.orion.client.deploy",
+  "Params": {
+    "Target": {
+      "Url": "https://api.ng.bluemix.net",
+      "Org": "sjana086@uottawa.ca",
+      "Space": "dev"
+    },
+    "Name": "IoT-App-CarletonU",
+    "Instrumentation": {
+      "domain": "mybluemix.net",
+      "services": [
+        "sample-node-red-cloudantNoSQLDB",
+        "SmartLab",
+        "IoT-Db2-v1",
+        "IoT-App-CarletonU-cloudantNoSQLDB"
+      ]
+    }
+  },
+  "Path": "manifest.yml",
+  "Type": "Cloud Foundry"
+}

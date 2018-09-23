@@ -1,0 +1,235 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,700,300,100' rel='stylesheet' type='text/css'>
+    <link href="css/simplegrid.css" rel="stylesheet" media="screen">
+    <link href="css/style.css" rel="stylesheet" media="screen">
+
+<script>
+window.onload = function () {
+
+var dps = []; // dataPoints
+var chart = new CanvasJS.Chart("chartContainer", {
+	title :{
+		text: "Temperature Data"
+	},
+	axisX:{
+        title: "time",
+        //gridThickness: 2,
+        interval:10, 
+        intervalType: "second",    
+//      valueFormatString: "hh mm ss TT K", 
+        valueFormatString: "hh mm ss TT", 
+        labelAngle: -20
+    },
+	axisY: {
+		includeZero: true
+	},      
+	data: [{
+		type: "line",
+		dataPoints: dps
+	}]
+});
+
+var xVal = 0;
+var yVal = 100; 
+var updateInterval = 1000;
+var dataLength = 100; // number of dataPoints visible at any point
+
+var updateChart = function (count) {
+
+
+	$.ajax(
+	{
+		type: "GET",
+		url: "https://4014be2e-f153-4b36-b638-5f1ce9d8dd78-bluemix.cloudant.com/storage01/_design/viewid/_view/_id?descending=true&limit=1",
+		success: function(result)
+		{
+			for (var i in result.rows)
+			{
+				var d = new Date();
+				var utc = (result.rows[ i ].key) - (d.getTimezoneOffset() * 60000);
+				var nd = new Date(utc + (3600000*+4));
+				var tm = nd.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric',second: 'numeric', hour12: true })
+				dps.push({
+					x: nd,
+					y: parseInt(result.rows[ i ].value.temp)
+				});
+				console.log("Temp data");
+				console.log(result.rows[ i ].key);
+				console.log(result.rows[ i ].value.temp);
+			}
+		}
+	});
+	
+	
+
+	if (dps.length > dataLength) {
+		dps.shift();
+	}
+
+	chart.render();
+	
+};
+
+updateChart(dataLength);
+setInterval(function(){updateChart()}, updateInterval);
+
+
+// Humidity
+
+var dpsHumidity = []; // dataPoints
+var chartHumidity = new CanvasJS.Chart("chartContainerHumidity", {
+	title :{
+		text: "Humidity Data"
+	},
+	axisX:{
+        title: "time",
+        //gridThickness: 2,
+        interval:10, 
+        intervalType: "second",    
+//      valueFormatString: "hh mm ss TT K", 
+        valueFormatString: "hh mm ss TT", 
+        labelAngle: -20
+    },
+	axisY: {
+		includeZero: true
+	},      
+	data: [{
+		type: "line",
+		dataPoints: dpsHumidity
+	}]
+});
+
+
+var updateChartHumidity = function (count) {
+
+	$.ajax(
+	{
+		type: "GET",
+		url: "https://4014be2e-f153-4b36-b638-5f1ce9d8dd78-bluemix.cloudant.com/storage01/_design/viewid/_view/_id?descending=true&limit=1",
+		success: function(result)
+		{
+			for (var i in result.rows)
+			{
+				var d = new Date();
+				var utc = (result.rows[ i ].key) - (d.getTimezoneOffset() * 60000);
+				var nd = new Date(utc + (3600000*+4));
+				var tm = nd.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric',second: 'numeric', hour12: true })
+				dpsHumidity.push({
+					x: nd,
+					y: parseInt(result.rows[ i ].value.humid)
+				});
+				console.log("Humidity data");
+				console.log(result.rows[ i ].key);
+				console.log(result.rows[ i ].value.humid);
+			}
+		}
+	});
+	
+	
+
+	if (dpsHumidity.length > dataLength) {
+		dpsHumidity.shift();
+	}
+
+	chartHumidity.render();
+	
+};
+
+updateChartHumidity(dataLength);
+setInterval(function(){updateChartHumidity()}, updateInterval);
+
+
+}
+</script>
+<script type="text/javascript" src="strobe/lib/swfobject.js"></script>
+   <script type="text/javascript"> 
+     
+          
+       // Create a StrobeMediaPlayback configuration 
+      var parameters = {  
+                     src: "rtmp://http://192.168.137.63/flvplayback/myStream",  
+                              autoPlay: true,  
+                     controlBarAutoHide: false,  
+                     playButtonOverlay: true,  
+                     showVideoInfoOverlayOnStartUp: false,  
+                              optimizeBuffering : false,  
+                              initialBufferTime : 0.1,  
+                              expandedBufferTime : 0.1,  
+                              minContinuousPlayback : 0.1,  
+                     poster: "strobe/images/poster.png"  
+                   };  
+      // Embed the player SWF:          
+      swfobject.embedSWF
+         ( "strobe/StrobeMediaPlayback.swf"
+         , "strobeMediaPlayback"
+         , 1080
+         , 720
+         , "10.1.0"
+         , {}
+         , parameters
+         , { allowFullScreen: "true"}
+         , { name: "strobeMediaPlayback" }
+         );
+    </script><style type="text/css" media="screen">#strobeMediaPlayback {visibility:hidden}</style>     
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700&amp;amp;subset=cyrillic" rel="stylesheet">
+
+
+</head>
+<body>
+
+	<div class="header">
+        <div class="header-content">
+            <div class="brand">IoT on IBM Cloud</div>
+        </div>
+    </div>
+    <!-- Grid 1 -->
+    <div class="title">
+        <div class="grid">
+            <div class="col-1-1">
+                <div class="content">
+                    <h1>SMART LAB</h1>
+                    <h2>Internet of Things project from Carleton University</h2>
+					<img src="http://5days.ca/wp-content/uploads/2016/01/carletonlogo.png" alt="CarletonU logo" style="width:250px;height:80px;">
+                </div>
+            </div>
+        </div>
+    </div>
+	
+	<div class="row2">
+        <div class="grid">
+            <div class="col-1-2">
+                <div class="content blurb">
+                    <p>Smart lab is an IoT project for connecting together hardware devices, APIs and online services in to a single unique service.</p>
+                    <p>This instance is running  in an IBM Cloud application connected with NODE-RED services, it  has access to the wide range of services available on the IBM platform with high scalability.</p>
+                    
+                </div>
+            </div>
+            <div class="col-1-2">
+                <div class="content blurb">
+                    <p style="text-align: center"><a style="width:350px;" class="button" href="video.html">Live Video</a></p>
+                    <p style="text-align: center"><a href="#custom">Live video is transmitted from Raspberry Pi</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+		<div class="row2">
+        <div class="grid">
+            <div class="col-1-2">
+                <div id="chartContainer" style="height: 300px; width: 500px;"></div>
+            </div>
+            <div class="col-1-2">
+                <div id="chartContainerHumidity" style="height: 300px; width: 500px;"></div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</body>
+</html>
